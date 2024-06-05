@@ -16,6 +16,9 @@ response = requests.get(url)
 # 解析响应中的JSON数据
 data = json.loads(response.text)
 
+print('====================')
+print(data)
+print('====================')
 # 提取所需的天气信息
 temperature = data["main"]["temp"]
 humidity = data["main"]["humidity"]
