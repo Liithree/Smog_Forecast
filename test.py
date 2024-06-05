@@ -1,13 +1,29 @@
-# 假设当前天气信息已经全部存储到json文件中，处理它并将有用的信息存储到csv文件中，便于数据处理和操作
 import json
-import csv
+import pandas as pd
 
-filed_names = ['city_id', 'city_name', 'country_code', ]
-with open('test.json', 'r') as f:
-    data = json.load(f)
+# 从 JSON 文件中读取数据
+with open('test.json', 'r') as json_file:
+    data = json.load(json_file)
+    goalData_Name = "data"
+    goalData = data[goalData_Name]
 
-print(data)
-print(data['city_id'])
+for temp in goalData:
+    weather = temp['weather']
+    code = weather['code']
+    temp['code'] = code
+    temp.pop('weather')
 
+csvFileName = 'output.csv'
+try:
+    # 尝试加载已有的CSV文件
+    df = pd.read_csv(csvFileName)
+except FileNotFoundError:
+    # 如果文件不存在，创建一个新的DataFrame
+    df = pd.DataFrame()
 
+df = pd.DataFrame(goalData)
+df = pd.concat([df, df], ignore_index=True)
 
+# 将DataFrame保存回CSV文件
+df.to_csv(csvFileName, index=False)
+print("更新成功！")

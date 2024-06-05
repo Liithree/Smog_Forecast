@@ -7,9 +7,9 @@ api_key = '1ed0fcf8ff944abb86642fd947ed2062'
 start_date = '2024-06-03'
 end_date = '2024-06-04'
 # latitude 纬度
-lat = 34.154
+lat = 34.108626
 # longitude 经度
-lon = 108.563
+lon = 108.605011
 url = f'https://api.weatherbit.io/v2.0/history/hourly?lat={lat}&lon={lon}&start_date={start_date}&end_date={end_date}&tz=local&key={api_key}'
 response = requests.get(url)
 data = json.loads(response.text)
