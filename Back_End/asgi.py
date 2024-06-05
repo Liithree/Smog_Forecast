@@ -1,5 +1,5 @@
 """
-ASGI config for Plane_System_Back_End project.
+ASGI config for Back_End project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Plane_System_Back_End.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Back_End.settings')
 
 application = get_asgi_application()

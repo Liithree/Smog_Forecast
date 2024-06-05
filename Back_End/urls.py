@@ -1,5 +1,5 @@
 """
-URL configuration for Plane_System_Back_End project.
+URL configuration for Back_End project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.0/topics/http/urls/
