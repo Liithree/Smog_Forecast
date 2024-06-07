@@ -1,0 +1,119 @@
+body {
+  background: linear-gradient(to right, #888888, #ffffff, #0074D9);
+}
+header {
+  height: 1.25rem;
+}
+header h1 {
+  font-size: 0.675rem;
+  color: #4ee1ab;
+  text-align: center;
+}
+.mainbox {
+  display: flex;
+  min-width: 1024px;
+  max-width: 1920px;
+  margin: 0 auto;
+  height: 300px;
+  padding: 0.125rem 0.125rem 0;
+}
+.mainbox .column {
+  flex: 3;
+}
+.mainbox .column:nth-child(2) {
+  flex: 5;
+}
+.panel {
+  position: relative;
+  height: 3.875rem;
+  padding: 0px 0.1875rem 0.5rem 0.1875rem;
+  margin-bottom: 0.1875rem;
+  border: 1px solid rgba(7, 7, 7, 0.557);
+  overflow: hidden;
+}
+.panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  left: 0px;
+  border-left: 2px solid #04fc21;
+  border-top: 2px solid #04fc21;
+}
+.panel::after {
+  position: absolute;
+  content: '';
+  top: 0;
+  width: 20px;
+  height: 20px;
+  right: 0px;
+  border-right: 2px solid #04fc21;
+  border-top: 2px solid #04fc21;
+}
+.panel .panel-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+.panel .panel-footer::before {
+  content: '';
+  position: absolute;
+  bottom: 0px;
+  width: 20px;
+  height: 20px;
+  left: 0px;
+  border-left: 2px solid #04fc21;
+  border-bottom: 2px solid #04fc21;
+}
+.panel .panel-footer::after {
+  position: absolute;
+  content: '';
+  bottom: 0;
+  width: 20px;
+  height: 20px;
+  right: 0px;
+  border-right: 2px solid #04fc21;
+  border-bottom: 2px solid #04fc21;
+}
+.wholeImg {
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+}
+.textForm {
+  font-size: 0.625rem;
+}
+.bn39 {
+  margin-top: 1.25rem;
+  background-image: linear-gradient(135deg, #008aff, #86d472);
+  border-radius: 6px;
+  box-sizing: border-box;
+  color: #ffffff;
+  display: block;
+  height: 50px;
+  font-size: 1.4em;
+  font-weight: 600;
+  padding: 4px;
+  position: relative;
+  text-decoration: none;
+  width: 7em;
+  z-index: 2;
+}
+.bn39:hover {
+  color: #fff;
+}
+.bn39 .bn39span {
+  align-items: center;
+  background: #0e0e10;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  transition: background 0.5s ease;
+  width: 100%;
+}
+.bn39:hover .bn39span {
+  background: transparent;
+}
