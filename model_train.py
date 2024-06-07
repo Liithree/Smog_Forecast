@@ -31,7 +31,7 @@ target = df['aqi']
 # 标准化
 scaler = StandardScaler()
 features = scaler.fit_transform(features)
-
+print(features)
 
 # 创建时间序列数据集
 def create_sequences(features, target, seq_length):
@@ -44,7 +44,7 @@ def create_sequences(features, target, seq_length):
     return np.array(xs), np.array(ys)
 
 
-seq_length = 24
+seq_length = 2
 X, y = create_sequences(features, target, seq_length)
 
 # 打印数据的形状
@@ -75,7 +75,7 @@ for i in range(epochs):
         single_loss = loss_function(y_pred, torch.FloatTensor([labels]))
         single_loss.backward()
         optimizer.step()
-        print(f'Epoch {i} loss: {single_loss.item()}')
+    print(f'Epoch {i} loss: {single_loss.item()}')
 
 print(f'Final loss: {single_loss.item()}')
 
