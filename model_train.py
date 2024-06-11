@@ -1,94 +1,110 @@
-import torch
-import torch.nn as nn
-import torch.optim as optim
 import numpy as np
 import pandas as pd
+import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, Dataset
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
+# 读取CSV文件
+data = pd.read_csv('output1.csv')
 
-class LSTMModel(nn.Module):
-    def __init__(self, input_size, hidden_layer_size, output_size):
-        super(LSTMModel, self).__init__()
-        self.hidden_layer_size = hidden_layer_size
-        self.lstm = nn.LSTM(input_size, hidden_layer_size)
-        self.linear = nn.Linear(hidden_layer_size, output_size)
-        self.hidden_cell = (torch.zeros(1, 1, self.hidden_layer_size), torch.zeros(1, 1, self.hidden_layer_size))
+features = ['rh', 'wind_spd', 'wind_dir', 'vis', 'pres', 'temp']
+target = 'aqi_level'
 
-    def forward(self, input_seq):
-        lstm_out, self.hidden_cell = self.lstm(input_seq.view(len(input_seq), 1, -1), self.hidden_cell)
-        predictions = self.linear(lstm_out.view(len(input_seq), -1))
-        return predictions[-1]
-
-
-# 读取数据
-file_name = 'output.csv'
-df = pd.read_csv(file_name)
-features = df[
-    ['rh', 'wind_spd', 'slp', 'azimuth', 'dewpt', 'snow', 'wind_dir', 'code', 'vis', 'precip', 'pres', 'temp']]
-target = df['aqi']
-
-# 标准化
+# 数据预处理
 scaler = StandardScaler()
-features = scaler.fit_transform(features)
-print(features)
+data[features] = scaler.fit_transform(data[features])
 
-# 创建时间序列数据集
-def create_sequences(features, target, seq_length):
+# 构建特征和标签
+X = data[features].values
+y = data[target].values
+
+
+# 创建时间序列数据
+def create_sequences(X, y, seq_length):
     xs, ys = [], []
-    for i in range(len(features) - seq_length):
-        x = features[i:i + seq_length]
-        y = target[i + seq_length]
-        xs.append(x)
-        ys.append(y)
+    for i in range(len(X) - seq_length):
+        xs.append(X[i:i + seq_length])
+        ys.append(y[i + seq_length])
     return np.array(xs), np.array(ys)
 
 
-seq_length = 2
-X, y = create_sequences(features, target, seq_length)
+seq_length = 6  # 使用过去24小时的数据预测未来1小时的AQI等级
+X_seq, y_seq = create_sequences(X, y, seq_length)
 
-# 打印数据的形状
-print(f'X shape: {X.shape}')
-print(f'y shape: {y.shape}')
+# 划分训练集和测试集
+X_train, X_test, y_train, y_test = train_test_split(X_seq, y_seq, test_size=0.2, random_state=42)
 
-# 划分数据集
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False)
 
-input_size = features.shape[1]
-hidden_layer_size = 50
-output_size = 1
+# 创建数据集和数据加载器
+class AirQualityDataset(Dataset):
+    def __init__(self, X, y):
+        self.X = torch.tensor(X, dtype=torch.float32)
+        self.y = torch.tensor(y, dtype=torch.long)
 
-model = LSTMModel(input_size, hidden_layer_size, output_size)
+    def __len__(self):
+        return len(self.X)
+
+    def __getitem__(self, idx):
+        return self.X[idx], self.y[idx]
+
+
+train_dataset = AirQualityDataset(X_train, y_train)
+test_dataset = AirQualityDataset(X_test, y_test)
+
+train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
+
+
+# 定义LSTM模型
+class AirQualityLSTM(nn.Module):
+    def __init__(self, input_size, hidden_size, num_layers, output_size, dropout=0.5):
+        super(AirQualityLSTM, self).__init__()
+        self.hidden_size = hidden_size
+        self.num_layers = num_layers
+        self.lstm = nn.LSTM(input_size, hidden_size, num_layers, batch_first=True, dropout=dropout)
+        self.fc = nn.Linear(hidden_size, output_size)
+
+    def forward(self, x):
+        h0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(x.device)
+        c0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(x.device)
+        out, _ = self.lstm(x, (h0, c0))
+        out = self.fc(out[:, -1, :])
+        return out
+
+
+input_size = len(features)
+hidden_size = 256
+num_layers = 3
+output_size = 6  # 6个AQI等级
+
+model = AirQualityLSTM(input_size, hidden_size, num_layers, output_size)
+criterion = nn.CrossEntropyLoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.0005)
 
 # 训练模型
-loss_function = nn.MSELoss()
-optimizer = optim.Adam(model.parameters(), lr=0.001)
-epochs = 50
-
-for i in range(epochs):
-    for seq, labels in zip(X_train, y_train):
+num_epochs = 200
+for epoch in range(num_epochs):
+    model.train()
+    for inputs, labels in train_loader:
+        outputs = model(inputs)
+        loss = criterion(outputs, labels)
         optimizer.zero_grad()
-        model.hidden_cell = (torch.zeros(1, 1, model.hidden_layer_size), torch.zeros(1, 1, hidden_layer_size))
-
-        y_pred = model(torch.FloatTensor(seq))
-
-        single_loss = loss_function(y_pred, torch.FloatTensor([labels]))
-        single_loss.backward()
+        loss.backward()
         optimizer.step()
-    print(f'Epoch {i} loss: {single_loss.item()}')
 
-print(f'Final loss: {single_loss.item()}')
+    print(f'Epoch [{epoch + 1}/{num_epochs}], Loss: {loss.item():.4f}')
 
-# 评估模型
-test_predictions = []
+# 模型评估
 model.eval()
-for seq in X_test:
-    with torch.no_grad():
-        model.hidden_cell = (torch.zeros(1, 1, model.hidden_layer_size), torch.zeros(1, 1, hidden_layer_size))
-        test_predictions.append(model(torch.FloatTensor(seq)).item())
+correct, total = 0, 0
+with torch.no_grad():
+    for inputs, labels in test_loader:
+        outputs = model(inputs)
+        _, predicted = torch.max(outputs.data, 1)
+        total += labels.size(0)
+        correct += (predicted == labels).sum().item()
 
-# 转换为numpy数组
-test_predictions = np.array(test_predictions)
-# 均方根误差
-mse = np.mean((test_predictions - y_test) ** 2)
-print(f'Test MSE: {mse}')
+accuracy = 100 * correct / total
+print(f'Test Accuracy: {accuracy:.2f}%')
