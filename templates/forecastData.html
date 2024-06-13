@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <form action="/historyDataView/" method="post">
+    <form action="/forecastData/" method="post">
         {% csrf_token %}
         <input type="text" name="q">
         <input type="submit" value="查询">
@@ -17,7 +17,7 @@
 
     <div id="main" style="width: 800px; height: 600px;"></div>
     <script>
-        var t = "{{ rlt }}";
+         var t = "{{ rlt }}";
         t = JSON.parse(t.replace(/&quot;/g, "\""));
      let obj = t[0];
      let nums = Object.keys(obj).length - 1;
@@ -30,7 +30,7 @@
      //设置表的参数；
      var option = {
          title: {
-            text : 'ForecastData',
+            text : 'HistoryData',
             left: 'center'
          },
          legend: {
