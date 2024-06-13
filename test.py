@@ -31,7 +31,7 @@ df = df.dropna(subset='aqi')
 df[['month', 'day', 'hour']] = df['timestamp_local'].apply(lambda x: pd.Series(extract_date_info(x)))
 df['aqi_level'] = df['aqi'].apply(classify_aqi)
 # 将‘ts’放在第一列
-cols = ['ts'] + [col for col in df.columns if col != 'ts']
+cols = ['timestamp_local'] + [col for col in df.columns if col != 'timestamp_local']
 df = df[cols]
-df.to_csv('output1.csv', index=False)
+df.to_csv('cleaned_data.csv', index=False)
 

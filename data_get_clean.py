@@ -20,8 +20,8 @@ api_key2 = '63f243f101a04331a050a707494ace9c'
 api_key3 = '40e0c96902f14b4abd0996c6fb114bd0'
 api_key4 = '5510e07abfaa438ca0e34519dde5bc89'
 api_key5 = 'cf38e99cc37a450db538ea9dbaf68884'
-start_date = '2022-04-01'
-end_date = '2022-05-01'
+start_date = '2022-07-01'
+end_date = '2022-07-03'
 lat = 34.34
 lon = 108.94
 url_weather = f'https://api.weatherbit.io/v2.0/history/hourly?lat={lat}&lon={lon}&start_date={start_date}&end_date={end_date}&tz=local&key={api_key1}'
