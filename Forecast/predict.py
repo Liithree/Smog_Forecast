@@ -35,13 +35,9 @@ def load_and_predict():
     time.sleep(0.1)
 
     data_weather = json.loads(response_weather.text)
-    # with open('weather_data.json', 'w') as weather_data_file:
-    #     json.dump(data_weather, weather_data_file)
+
     data_air_quality = json.loads(response_air_quality.text)
-    # with open('air_quality_data.json', 'w') as air_quality_file:
-    #     json.dump(data_air_quality, air_quality_file)
-    # print(data_air_quality)
-    # 获取目标数据
+
     data_weather = data_weather['data']
     data_air_quality = data_air_quality['data']
 
