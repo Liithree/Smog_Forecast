@@ -3,7 +3,7 @@ import json
 
 from django.shortcuts import render
 
-from . import views,test
+from . import views, predict
 
 
 # 接收POST请求数据
@@ -35,12 +35,9 @@ def search_ForecastData(request):
     ctx = {}
     if request.POST:
         #调用预测方法；
-        test.test_dic()
+        data = predict.get_weather()
         ctx['rlt'] = request.POST['q']
-        # 指定 CSV 文件路径
-        csv_file_path = 'cleaned_data.csv'
-        # 调用函数提取数据
-        data = views.extract_data(csv_file_path)
+
         # 将数据转换为 JSON 格式
         data_json = json.dumps(data)
 
