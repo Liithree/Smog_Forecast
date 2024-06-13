@@ -29,3 +29,7 @@ def homepage(request):
     # 将数据转换为 JSON 格式
     data_json = json.dumps(data)
     return render(request, "homepage.html", {"names": data_json})
+
+
+
+
