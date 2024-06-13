@@ -3,6 +3,7 @@ import os
 from django.http import JsonResponse
 from django.shortcuts import render
 import pandas as pd
+from .current_weather import get_weather
 import csv
 
 def extract_data(csv_file_path):
@@ -16,6 +17,23 @@ def extract_data(csv_file_path):
     return data
 
 def homepage(request):
+
+    # 调用get_weather将当前天气情况写入到current_weather_data的两个json文件中
+    get_weather()
+    # 读取json文件
+    json_file_path = os.path.join('current_weather_data', 'data.json') # 名字要改
+    try:
+        with open(json_file_path, 'r', encoding='utf-8') as file:
+            # 从文件中加载 JSON 数据
+            json_data = json.load(file)
+    except Exception as e:
+        json_data = None
+        error_message = str(e)
+        return render(request, '1.html', {'error': error_message})
+
+    # 将数据传递给模板
+    return render(request, 'xx.html', {'data': json_data})
+
     # 指定 CSV 文件路径
     csv_file_path = 'cleaned_data.csv'
     # 调用函数提取数据
