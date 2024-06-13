@@ -24,13 +24,11 @@ def get_weather():
     data_air_quality = json.loads(response_air_quality.text)
     data_weather = data_weather['data'][0]
     data_air_quality = data_air_quality['data'][0]
-    print(data_weather)
-    print(type(data_weather))
-    print(data_air_quality)
-    print(type(data_air_quality))
+    # print(data_weather)
+    # print(type(data_weather))
+    # print(data_air_quality)
+    # print(type(data_air_quality))
     with open('current_weather_data/data_weather.json', 'w', encoding='utf-8') as file1:
         json.dump(data_weather, file1)
     with open('current_weather_data/data_air_quality.json', 'w', encoding='utf-8') as file2:
         json.dump(data_air_quality, file2)
-
-get_weather()

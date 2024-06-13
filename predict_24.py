@@ -109,7 +109,7 @@ def get_weather():
     i = 0
     my_list = []
     while i < 24:
-        data_temp = data[(data['ts'] >= start) & (data['ts'] < end)]
+        data_temp = data[(data['ts'] >= start) & (data['ts'] <= end)]
         # print(data_temp)
         # print('=============')
         # 数据预处理
