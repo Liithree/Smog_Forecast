@@ -29,3 +29,19 @@ def search_historyData(request):
         return render(request, "historyDatapage.html", {"rlt": data_json})
     else:
         return render(request, "historyDatapage.html", {"rlt": ctx})
+
+#预测数据
+def search_ForecastData(request):
+    ctx = {}
+    if request.POST:
+        ctx['rlt'] = request.POST['q']
+        # 指定 CSV 文件路径
+        csv_file_path = 'predicted_aqi_next_24_hours.csv'
+        # 调用函数提取数据
+        data = views.extract_data(csv_file_path)
+        # 将数据转换为 JSON 格式
+        data_json = json.dumps(data)
+        print(data_json)
+        return render(request, "forecastData.html", {"rlt": data_json})
+    else:
+        return render(request, "forecastData.html", {"rlt": ctx})
