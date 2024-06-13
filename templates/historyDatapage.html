@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>历史数据</title>
+</head>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.3.3/echarts.min.js"></script>
+</head>
+
+<body>
+    <form action="/historyDataView/" method="post">
+        {% csrf_token %}
+        <input type="text" name="q">
+        <input type="submit" value="查询">
+    </form>
+
+    <div id="main" style="width: 800px; height: 600px;"></div>
+    <script>
+        var t = "{{ rlt }}";
+        t = JSON.parse(t.replace(/&quot;/g, "\""));
+     let obj = t[0];
+     let nums = Object.keys(obj).length - 1;
+
+     let seriesData = [];
+     for (let i = 0; i < nums; i++) {
+         seriesData.push({ type: 'line'});
+     }
+
+     //设置表的参数；
+     var option = {
+         title: {
+            text : 'HistoryData',
+            left: 'center'
+         },
+         legend: {
+            orient: 'vertical',
+            left: 'left'
+         },
+         tooltip: {},
+         dataset: {
+             source: t
+         },
+
+         xAxis: { type: 'category' },
+
+         yAxis: {},
+
+         series: seriesData
+    };
+
+    let currentIndex = -1;
+    var myChart = echarts.init(document.getElementById('main'));
+
+    myChart.setOption(option);
+
+    </script>
+</body>
+</html>

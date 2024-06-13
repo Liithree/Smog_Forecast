@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.3.3/echarts.min.js"></script>
+    <title>雾霾预测</title>
+</head>
+
+<body>
+  <div id="main" style="width: 800px; height: 600px;"></div>
+  <script>
+     //获取服务器传输过来的数据；
+     var t = "{{names}}";
+     //将服务器传输过来的数据转化为JSON格式；
+     t = JSON.parse(t.replace(/&quot;/g, "\""));
+     let obj = t[0];
+     let nums = Object.keys(obj).length - 1;
+
+     let seriesData = [];
+     for (let i = 0; i < nums; i++) {
+         seriesData.push({ type: 'line',symbol: 'none',
+      sampling: 'lttb',
+      itemStyle: {
+        color: 'rgb(255, 70, 131)'
+      },
+      areaStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          {
+            offset: 0,
+            color: 'rgb(255, 158, 68)'
+          },
+          {
+            offset: 1,
+            color: 'rgb(255, 70, 131)'
+          }
+        ])
+      },});
+     }
+
+     //设置表的参数；
+     var option = {
+         title: {
+            text : 'HazeData',
+            left: 'center'
+         },
+         legend: {
+            orient: 'vertical',
+            left: 'left'
+         },
+
+         tooltip: {
+    trigger: 'axis',
+    position: function (pt) {
+      return [pt[0], '10%'];
+    }
+  },
+  toolbox: {
+    feature: {
+      dataZoom: {
+        yAxisIndex: 'none'
+      },
+      restore: {},
+      saveAsImage: {}
+    }
+  },
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+         dataset: {
+             source: t
+         },
+
+         xAxis: {
+    type: 'category',
+    boundaryGap: false,
+
+  },
+  yAxis: {
+    type: 'value',
+    boundaryGap: [0, '100%']
+  },
+
+ dataZoom: [
+    {
+      type: 'inside',
+      start: 0,
+      end: 10
+    },
+    {
+      start: 0,
+      end: 10
+    }
+  ],
+         series: seriesData
+    };
+
+    let currentIndex = -1;
+    var myChart = echarts.init(document.getElementById('main'));
+
+    myChart.setOption(option);
+    myChart.on('click', function(params) {
+
+    window.open('http://127.0.0.1:8000/tempDL/');
+});
+  </script>
+
+</body>
+
+</html>
