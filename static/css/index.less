@@ -129,3 +129,91 @@ header{
   .bn39:hover .bn39span {
     background: transparent;
   }
+
+.text4weather{
+    font-size: .25rem;
+    margin: 0rem;
+}
+
+.date{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 18px;
+    color: white;
+}
+
+.temperature {
+    font-size: 20px;
+    color: blue;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.weather-icon {
+    font-size: .25rem;
+    color: white;
+    margin-right: .875rem;
+    display: inline-block;
+    
+}
+
+.panel4weather{
+    position: relative;
+    height: 3.875rem;
+    background: linear-gradient(to right,#309ee3, #ffffff);
+    padding: 0px .1875rem .5rem .1875rem ; 
+    margin-bottom: .1875rem;
+    border: 1px solid rgba(7, 7, 7, 0.557);
+    &::before{
+        content: '';
+        position: absolute;
+        top:0;
+        width:20px;
+        height: 20px;
+        left:0px;
+        border-left:2px solid  rgb(4, 252, 33);
+        border-top:2px solid  rgb(4, 252, 33);
+
+    }
+    &::after{
+        position: absolute;
+        content: '';
+        top:0;
+        width:20px;
+        height: 20px;
+        right:0px;
+        border-right:2px solid  rgb(4, 252, 33);
+        border-top:2px solid  rgb(4, 252, 33);
+        
+    }
+    .panel-footer{
+        position: absolute;
+        bottom:0;
+        left:0;
+        width:100%;
+        &::before{
+            content: '';
+            position: absolute;
+            bottom:0px;
+            width:20px;
+            height: 20px;
+            left:0px;
+            border-left:2px solid  rgb(4, 252, 33);
+            border-bottom:2px solid  rgb(4, 252, 33);
+    
+        }
+        &::after{
+            position: absolute;
+            content: '';
+            bottom:0;
+            width:20px;
+            height: 20px;
+            right:0px;
+            border-right:2px solid  rgb(4, 252, 33);
+            border-bottom:2px solid  rgb(4, 252, 33);
+            
+        }
+    }
+    overflow: hidden;
+}

@@ -117,3 +117,81 @@ header h1 {
 .bn39:hover .bn39span {
   background: transparent;
 }
+.text4weather {
+  font-size: 0.25rem;
+  margin: 0rem;
+}
+.date {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 18px;
+  color: white;
+}
+.temperature {
+  font-size: 20px;
+  color: blue;
+  text-align: center;
+  margin-top: 20px;
+}
+.weather-icon {
+  font-size: 0.25rem;
+  color: white;
+  margin-right: 0.875rem;
+  display: inline-block;
+}
+.panel4weather {
+  position: relative;
+  height: 3.875rem;
+  background: linear-gradient(to right, #309ee3, #ffffff);
+  padding: 0px 0.1875rem 0.5rem 0.1875rem;
+  margin-bottom: 0.1875rem;
+  border: 1px solid rgba(7, 7, 7, 0.557);
+  overflow: hidden;
+}
+.panel4weather::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  left: 0px;
+  border-left: 2px solid #04fc21;
+  border-top: 2px solid #04fc21;
+}
+.panel4weather::after {
+  position: absolute;
+  content: '';
+  top: 0;
+  width: 20px;
+  height: 20px;
+  right: 0px;
+  border-right: 2px solid #04fc21;
+  border-top: 2px solid #04fc21;
+}
+.panel4weather .panel-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+.panel4weather .panel-footer::before {
+  content: '';
+  position: absolute;
+  bottom: 0px;
+  width: 20px;
+  height: 20px;
+  left: 0px;
+  border-left: 2px solid #04fc21;
+  border-bottom: 2px solid #04fc21;
+}
+.panel4weather .panel-footer::after {
+  position: absolute;
+  content: '';
+  bottom: 0;
+  width: 20px;
+  height: 20px;
+  right: 0px;
+  border-right: 2px solid #04fc21;
+  border-bottom: 2px solid #04fc21;
+}

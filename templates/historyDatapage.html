@@ -11,7 +11,7 @@
 <body>
     <form action="/historyDataView/" method="post">
         {% csrf_token %}
-        <input type="text" name="q">
+        <input type="date" name="q">
         <input type="submit" value="查询">
     </form>
 
@@ -51,9 +51,10 @@
 
     let currentIndex = -1;
     var myChart = echarts.init(document.getElementById('main'));
-
     myChart.setOption(option);
 
+    var info = document.getElementsByName("p");
+    console.log(info.value);
     </script>
 </body>
 </html>
