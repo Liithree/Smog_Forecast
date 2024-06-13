@@ -8,10 +8,10 @@ import requests
 from datetime import datetime, timedelta
 import time
 from sklearn.preprocessing import StandardScaler
+from .model import AirQualityLSTM
 pd.options.mode.chained_assignment = None
 
 
-# 定义更加复杂的LSTM模型用于回归
 class AirQualityLSTM(nn.Module):
     def __init__(self, input_size, hidden_size, num_layers, dropout=0.5):
         super(AirQualityLSTM, self).__init__()
@@ -102,14 +102,14 @@ def get_weather():
     # print(df_weather)
     data = df_pre_weather._append(df_weather, ignore_index=True)
     data = data.sort_values(by='ts')
-    # data.to_csv('temp.csv', index=False)
+    data.to_csv('temp.csv', index=False)
     features = ['rh', 'wind_spd', 'wind_dir', 'vis', 'pres', 'temp']
-
-    start, end = get_time_2()
     i = 0
+    # 模型路径
+    model = torch.load('model_LSTM_r_complex2.pth')
     my_list = []
     while i < 24:
-        data_temp = data[(data['ts'] >= start) & (data['ts'] <= end)]
+        data_temp = data.iloc[i:i + 24]
         # print(data_temp)
         # print('=============')
         # 数据预处理
@@ -121,9 +121,6 @@ def get_weather():
 
         # 转换为torch tensor
         X_last_24_hours_tensor = torch.tensor(X_last_24_hours, dtype=torch.float32)
-
-        # 模型路径
-        model = torch.load('model/model_LSTM_r_complex2.pth')
 
         # 模型预测
         model.eval()
@@ -138,10 +135,9 @@ def get_weather():
         # predicted_aqi_df = pd.DataFrame({'Hour': np.arange(1, len(predicted_aqi) + 1), 'Predicted AQI': predicted_aqi})
         # predicted_aqi_df.to_csv('data/predicted_aqi_next_24_hours.csv', index=False)
         # print('Predicted AQI values have been saved to predicted_aqi_next_24_hours.csv')
-        start += 3600
-        end += 3600
         i += 1
     return my_list
 
+
 # print(get_weather())
-# get_weather()
+get_weather()

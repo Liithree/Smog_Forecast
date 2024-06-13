@@ -28,7 +28,8 @@ def get_weather():
     # print(type(data_weather))
     # print(data_air_quality)
     # print(type(data_air_quality))
-    with open('current_weather_data/data_weather.json', 'w', encoding='utf-8') as file1:
+    with open('D:/软件系统开发综合能力训练/Smog_Forecast/Back_End/current_weather_data/data_weather.json', 'w', encoding='utf-8') as file1:
         json.dump(data_weather, file1)
-    with open('current_weather_data/data_air_quality.json', 'w', encoding='utf-8') as file2:
+    with open('D:/软件系统开发综合能力训练/Smog_Forecast/Back_End/current_weather_data/data_air_quality.json', 'w', encoding='utf-8') as file2:
         json.dump(data_air_quality, file2)
+

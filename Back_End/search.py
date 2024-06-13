@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 import json
-
 from django.shortcuts import render
-
 from . import views, predict
+from Back_End.model import AirQualityLSTM
 
 
 # 接收POST请求数据
@@ -45,10 +44,9 @@ def search_ForecastData(request):
         #调用预测方法；
         data = predict.get_weather()
         ctx['rlt'] = request.POST['q']
+        print(data)
 
-        # 将数据转换为 JSON 格式
-        data_json = json.dumps(data)
 
-        return render(request, "forecastData.html", {"rlt": data_json})
+        return render(request, "forecastData.html", {"rlt": data})
     else:
         return render(request, "forecastData.html", {"rlt": ctx})

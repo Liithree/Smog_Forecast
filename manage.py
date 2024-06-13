@@ -2,6 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from Back_End.model import AirQualityLSTM
 
 
 def main():

@@ -102,14 +102,12 @@ def get_weather():
     # print(df_weather)
     data = df_pre_weather._append(df_weather, ignore_index=True)
     data = data.sort_values(by='ts')
-    # data.to_csv('temp.csv', index=False)
+    data.to_csv('temp.csv', index=False)
     features = ['rh', 'wind_spd', 'wind_dir', 'vis', 'pres', 'temp']
-
-    start, end = get_time_2()
     i = 0
     my_list = []
     while i < 24:
-        data_temp = data[(data['ts'] >= start) & (data['ts'] <= end)]
+        data_temp = data.iloc[i:i+24]
         # print(data_temp)
         # print('=============')
         # 数据预处理
@@ -138,10 +136,8 @@ def get_weather():
         # predicted_aqi_df = pd.DataFrame({'Hour': np.arange(1, len(predicted_aqi) + 1), 'Predicted AQI': predicted_aqi})
         # predicted_aqi_df.to_csv('data/predicted_aqi_next_24_hours.csv', index=False)
         # print('Predicted AQI values have been saved to predicted_aqi_next_24_hours.csv')
-        start += 3600
-        end += 3600
         i += 1
     return my_list
 
-print(get_weather())
-# get_weather()
+# print(get_weather())
+get_weather()

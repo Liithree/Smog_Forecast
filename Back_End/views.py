@@ -5,6 +5,7 @@ from django.shortcuts import render
 import pandas as pd
 from .current_weather import get_weather
 import csv
+from Back_End.model import AirQualityLSTM
 
 def extract_data(csv_file_path):
     data = []
@@ -29,24 +30,10 @@ def homepage(request):
     except Exception as e:
         json_data = None
         error_message = str(e)
-        return render(request, '1.html', {'error': error_message})
+        return render(request, 'homepage.html', {'error': error_message})
 
     # 将数据传递给模板
-    return render(request, 'xx.html', {'data': json_data})
-
-    # 指定 CSV 文件路径
-    csv_file_path = 'cleaned_data.csv'
-    # 调用函数提取数据
-    data = extract_data(csv_file_path)
-
-    for item in data:
-        for _ in range(27):
-            item.pop(1)
-        for _ in range(10):
-            item.pop(2)
-    # 将数据转换为 JSON 格式
-    data_json = json.dumps(data)
-    return render(request, "homepage.html", {"names": data_json})
+    return render(request, 'homepage.html', {'data': json_data})
 
 
 
