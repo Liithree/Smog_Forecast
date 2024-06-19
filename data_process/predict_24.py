@@ -121,7 +121,7 @@ def get_weather():
         X_last_24_hours_tensor = torch.tensor(X_last_24_hours, dtype=torch.float32)
 
         # 模型路径
-        model = torch.load('../model_LSTM_r_complex2.pth')
+        model = torch.load('model_LSTM_r_complex2.pth')
 
         # 模型预测
         model.eval()
