@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
 # 读取CSV文件
-data = pd.read_csv('output1.csv')
+data = pd.read_csv('data_process/output1.csv')
 
 features = ['rh', 'wind_spd', 'wind_dir', 'vis', 'pres', 'temp']
 target = 'aqi'
