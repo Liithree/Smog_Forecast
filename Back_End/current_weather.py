@@ -33,3 +33,4 @@ def get_weather():
     with open('D:/软件系统开发综合能力训练/Smog_Forecast/Back_End/current_weather_data/data_air_quality.json', 'w', encoding='utf-8') as file2:
         json.dump(data_air_quality, file2)
 
+    return data_weather, data_air_quality

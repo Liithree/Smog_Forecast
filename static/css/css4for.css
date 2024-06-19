@@ -1,0 +1,24 @@
+.ech{
+    width: 1280px;
+    margin: 0 auto;
+    height: 760px;
+    border: 1px solid black;
+}
+
+.inputInfo{
+    margin-top: 30px;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center;
+}
+
+body{
+    background-color: darkgrey;
+}
+
+.textForm{
+    margin-right: 50px;
+    font-family: "微软雅黑 Light";
+    font-size: 65px;
+}

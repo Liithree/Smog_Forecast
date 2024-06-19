@@ -5,17 +5,27 @@
 <title>预测雾霾数据</title>
 </head>
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/css4for.css" rel="stylesheet"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.3.3/echarts.min.js"></script>
 </head>
 
 <body>
-    <form action="/forecastData/" method="post">
-        {% csrf_token %}
-        <input type="date" name="q">
-        <input type="submit" value="查询">
-    </form>
+    <div class="continer">
+        <div class="inputInfo">
+            <h3 class="textForm">请选择查询日期</h3>
+                <form action="/forecastData/" method="post">
+                {% csrf_token %}
+                <div class="input-group input-group-lg mb-3">
+                    <input type="date"
+                           name="q" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                    <input type="submit" value="查询" class="btn btn-outline-secondary btn-dark">
+                </div>
+            </form>
+        </div>
 
-    <div id="main" style="width: 800px; height: 600px;"></div>
+        <div id="main" class="ech"></div>
+    </div>
     <script>
          var t = "{{ rlt }}";
         t = JSON.parse(t.replace(/&quot;/g, "\""));
@@ -30,7 +40,7 @@
      //设置表的参数；
      var option = {
          title: {
-            text : 'Predicted Data',
+            text : 'Predict Data',
             left: 'center'
          },
          legend: {

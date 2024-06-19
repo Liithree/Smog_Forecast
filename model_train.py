@@ -31,7 +31,7 @@ def create_sequences(X, y, seq_length):
     return np.array(xs), np.array(ys)
 
 
-seq_length = 24  # 使用过去24小时的数据预测未来1小时的AQI值
+seq_length = 24  # 使用过去24小时的数据预测未来的AQI值
 X_seq, y_seq = create_sequences(X, y, seq_length)
 
 # 划分训练集和测试集

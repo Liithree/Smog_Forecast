@@ -46,7 +46,6 @@ def search_ForecastData(request):
         ctx['rlt'] = request.POST['q']
         print(data)
 
-
         return render(request, "forecastData.html", {"rlt": data})
     else:
         return render(request, "forecastData.html", {"rlt": ctx})
